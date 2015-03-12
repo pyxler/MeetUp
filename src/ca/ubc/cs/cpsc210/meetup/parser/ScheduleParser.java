@@ -92,6 +92,7 @@ public class ScheduleParser extends DefaultHandler {
 		System.out.println("Ended element: " + qName);
 		System.out.println("Buffer looks like: " + accumulator);
 		
+		//Assign the appropriate variables
 		if(qName.toLowerCase().equals("lastname")){
 			lastName = accumulator.toString();
 		} else if(qName.toLowerCase().equals("firstname")){
@@ -99,7 +100,10 @@ public class ScheduleParser extends DefaultHandler {
 		} else if(qName.toLowerCase().equals("id")){
 			id = Integer.parseInt(accumulator.toString());
 			System.out.println("id assigned");
-		} else if(qName.toLowerCase().equals("student")){
+		} 
+		
+		// if student then create a new student with all the fields assigned before
+		else if(qName.toLowerCase().equals("student")){
 			try {
 				manager.addStudent(lastName, firstName, id);
 			} catch (IllegalStudentException e) {
