@@ -21,7 +21,6 @@ public class ScheduleParser extends DefaultHandler {
 	int id;
 	int studentId;
 	StudentManager manager;
-	Section section;
 	
 	private StringBuffer accumulator;
 
@@ -50,15 +49,25 @@ public class ScheduleParser extends DefaultHandler {
 	@Override
 	public void startElement(String namespaceURI, String localName,
 			String qName, Attributes atts) {
-		// TODO: Complete implementation of this method
+		
 		accumulator.setLength(0);
 		System.out.println("Started element:" + qName);
 		
 		//Reinitialize all values if it is a student
-		if (qName.toLowerCase().equals("student")){
+		if(qName.toLowerCase().equals("lastname")){
 			lastName = null;
+		}
+		
+		else if(qName.toLowerCase().equals("firstname")){
 			firstName = null;
+		}
+		
+		else if(qName.toLowerCase().equals("id")){
 			id = 0;
+		}
+		
+		else if(qName.toLowerCase().equals("studentid")){
+			studentId = 0;
 		}
 		
 		//If it is a Section, create a new one
@@ -95,9 +104,13 @@ public class ScheduleParser extends DefaultHandler {
 		//Assign the appropriate variables
 		if(qName.toLowerCase().equals("lastname")){
 			lastName = accumulator.toString();
-		} else if(qName.toLowerCase().equals("firstname")){
+		} 
+		
+		else if(qName.toLowerCase().equals("firstname")){
 			firstName = accumulator.toString();
-		} else if(qName.toLowerCase().equals("id")){
+		} 
+		
+		else if(qName.toLowerCase().equals("id")){
 			id = Integer.parseInt(accumulator.toString());
 			System.out.println("id assigned");
 		} 
@@ -106,8 +119,8 @@ public class ScheduleParser extends DefaultHandler {
 		else if(qName.toLowerCase().equals("student")){
 			try {
 				manager.addStudent(lastName, firstName, id);
-			} catch (IllegalStudentException e) {
-				e.printStackTrace();
+			} catch (NullPointerException e) {
+				throw new IllegalStudentException();
 			}
 		}
 		

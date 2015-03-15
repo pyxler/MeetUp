@@ -36,7 +36,7 @@ public class StudentManager {
 	 *    and id > 0 
 	 * EFFECTS: Remember the student
 	 */
-	public void addStudent(String lastName, String firstName, int id) throws IllegalStudentException{
+	public void addStudent(String lastName, String firstName, int id){
 		if (!students.containsKey(id)) {
 			Student newStudent = new Student(lastName, firstName, id);
 			students.put(id, newStudent);

@@ -15,7 +15,7 @@ public class Place extends Location{
 
 	// The name of the place
 	private String name;
-	private List<String> tags;
+	protected List<String> tags;
 	
 	// Constructor for the place, give name and latlon of place
 	public Place(String name, LatLon latlon){

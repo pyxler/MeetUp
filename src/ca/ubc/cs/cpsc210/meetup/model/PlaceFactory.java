@@ -1,9 +1,12 @@
 package ca.ubc.cs.cpsc210.meetup.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import ca.ubc.cs.cpsc210.meetup.util.LatLon;
 
 
 /**
@@ -30,9 +33,9 @@ public class PlaceFactory {
 	 * 
 	 */
 	public static PlaceFactory getInstance(){
-		if (instance == null){
+		if (instance == null)
 			instance = new PlaceFactory();
-		}
+		
 		return instance;	
 	}
 	
@@ -42,6 +45,10 @@ public class PlaceFactory {
 	 */
 	public static void reset(){
 		instance = null;
+	}
+	
+	public Map<String, Set<Place>> getPlaces(){
+		return places;
 	}
 	
 	/**
@@ -71,17 +78,31 @@ public class PlaceFactory {
 	
 	public void add(Place place){
 		String name = place.getName();
+		Collection<Set<Place>> values = places.values();
+		boolean create = true;
 		
-		//Map already has the name in there, add it
-		if (places.containsKey(name)){
-			Set<Place> placesOfInterest = places.get(name);
-			placesOfInterest.add(place);
+		LatLon placeLatLon = place.latlon;
+		
+		for (Set<Place> p: values){
+			for (Place a: p){
+				if(a.latlon.equals(placeLatLon)){
+					create = false;
+				}
+			}
 		}
-		// map doesn't have the name, create new one
-		else{
-			Set<Place> placeToAdd = new HashSet<Place>();
-			placeToAdd.add(place);
-			places.put(name, placeToAdd);
+		
+		if(create){
+			//Map already has the name in there, add it
+			if (places.containsKey(name)){
+				Set<Place> placesOfInterest = places.get(name);
+				placesOfInterest.add(place);
+			}
+			// map doesn't have the name, create new one
+			else{
+				Set<Place> placeToAdd = new HashSet<Place>();
+				placeToAdd.add(place);
+				places.put(name, placeToAdd);
+			}
 		}
 		
 	}

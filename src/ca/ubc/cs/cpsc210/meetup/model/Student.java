@@ -15,7 +15,7 @@ public class Student {
 	private int id;
 	private Schedule schedule;
 	
-	public Student(String lastName, String firstName, int id) throws IllegalStudentException{
+	public Student(String lastName, String firstName, int id){
 		if (lastName.equals("") || firstName.equals("")){
 			throw new IllegalStudentException();
 		}
@@ -23,6 +23,8 @@ public class Student {
 		this.lastName = lastName;
 		this.firstName = firstName;
 		this.id = id;
+		this.schedule = new Schedule();
+		
 	}
 	
 	public String getLastName(){
